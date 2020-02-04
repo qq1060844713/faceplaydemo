@@ -1,0 +1,135 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <dimen name="list_padding">10dp</dimen>
+    <dimen name="shadow_width">5dp</dimen>
+    <dimen name="bottom_tab_padding_drawable">2.0dip</dimen>
+    <dimen name="bottom_tab_padding_up">2.0dip</dimen>
+    <dimen name="bottom_tab_font_size">14.0sp</dimen>
+    <dimen name="settting_textsise">15.0sp</dimen>
+    <dimen name="settting_textsise_son">12.0sp</dimen>
+
+    <!--main page-->
+    <dimen name="home_act_item_wh">200dip</dimen>
+    <dimen name="home_act_btn_wh">120dip</dimen>
+    <dimen name="home_act_setting_btn_wh">50dip</dimen>
+    <dimen name="home_act_setting_btn_margin_rt">20dip</dimen>
+    <dimen name="home_act_btn_txt_size">20sp</dimen>
+    <dimen name="home_act_btn_line_space_size">18dip</dimen>
+    <dimen name="home_act_page_footer_margin_b">10dip</dimen>
+    <dimen name="round">5dp</dimen>
+    <dimen name="left">21dp</dimen>
+    <!--setting page-->
+    <dimen name="setting_act_conf_item_margin_lf_distance">10dip</dimen>
+    <dimen name="setting_act_conf_item_margin_t_distance">20dip</dimen>
+    <dimen name="setting_act_conf_item_up_down_distance">2dip</dimen>
+    <dimen name="setting_act_conf_group_up_down_distance">20dip</dimen>
+    <dimen name="setting_act_dialog_divider_margin_lr">50dip</dimen>
+
+    <!--compare 1v1 page-->
+    <dimen name="compare_1v1_act_img_width">112dip</dimen>
+    <dimen name="compare_1v1_act_img_height">140dip</dimen>
+
+    <dimen name="compare_1v1_act_img_frame_width">168dip</dimen>
+    <dimen name="compare_1v1_act_img_frame_height">210dip</dimen>
+
+    <dimen name="compare_1v1_act_pic1_pic2_margin">10dip</dimen>
+    <dimen name="compare_1v1_act_pic_default_txt_margin_b">50dip</dimen>
+
+    <dimen name="compare_1v1_act_btn_compare_size">150dip</dimen>
+    <dimen name="compare_1v1_act_similarity_txt_size">20sp</dimen>
+    <dimen name="compare_1v1_act_similarity_value_txt_size">22sp</dimen>
+
+    <dimen name="compare_1v1_act_pic_default_text_size">16sp</dimen>
+
+    <dimen name="compare_1v1_act_similarity_result_bg_w">220dip</dimen>
+    <dimen name="compare_1v1_act_similarity_result_bg_h">100dip</dimen>
+
+    <!--compare 1vn page-->
+    <dimen name="compare_1vn_act_img_frame_border_w">80dip</dimen>
+    <dimen name="compare_1vn_act_img_frame_border_h">100dip</dimen>
+    <dimen name="compare_1vn_act_img_w">60dip</dimen>
+    <dimen name="compare_1vn_act_img_h">75dip</dimen>
+    <dimen name="compare_1vn_act_result_list_h">120dip</dimen>
+    <dimen name="compare_1vn_act_content_padding">10dip</dimen>
+
+    <dimen name="compare_1vn_act_result_item_w">120dip</dimen>
+
+    <dimen name="compare_1vn_act_result_img_frame_border_w">80dip</dimen>
+    <dimen name="compare_1vn_act_result_img_frame_border_h">105dip</dimen>
+    <dimen name="compare_1vn_act_result_img_w">72dip</dimen>
+    <dimen name="compare_1vn_act_result_img_h">90dip</dimen>
+
+    <dimen name="compare_1vn_act_person_info_detail_margin_l">110dip</dimen>
+    <dimen name="compare_1vn_act_result_info_rich_area_w">120dip</dimen>
+    <dimen name="compare_1vn_act_result_info_rich_area_margin_t">20dip</dimen>
+    <dimen name="compare_1vn_act_result_info_rich_area_interval">10dip</dimen>
+    <dimen name="compare_1vn_act_result_info_rich_area_similarity_bg_size">65dip</dimen>
+    <dimen name="compare_1vn_act_result_info_rich_area_img_w">100dip</dimen>
+    <dimen name="compare_1vn_act_result_info_rich_area_img_h">125dip</dimen>
+    <dimen name="compare_1vn_act_result_info_rich_area_img_pedestal_w">70dip</dimen>
+    <dimen name="compare_1vn_act_result_info_rich_area_img_pedestal_h">12dip</dimen>
+
+    <dimen name="compare_1vn_act_result_info_distance_h">3dip</dimen>
+    <dimen name="compare_1vn_act_result_info_txt_size">11sp</dimen>
+    <dimen name="compare_1vn_act_result_info_similarity_txt_size">14sp</dimen>
+
+    <dimen name="divide_between_person_info_2_blacklist_info_margin_lr">8dip</dimen>
+
+    <!--identity query page-->
+    <dimen name="identity_query_page_query_edit_w">300dip</dimen>
+    <dimen name="identity_query_page_query_edit_h">40dip</dimen>
+    <dimen name="identity_query_page_query_btn_w">170dip</dimen>
+    <dimen name="identity_query_page_query_btn_h">80dip</dimen>
+
+    <!--identity result page-->
+    <dimen name="identity_query_result_page_person_box_w">350dip</dimen>
+    <dimen name="identity_query_result_page_person_box_h">440dip</dimen>
+
+    <dimen name="identity_query_result_page_person_img_box_w">100dip</dimen>
+    <dimen name="identity_query_result_page_person_img_box_h">125dip</dimen>
+
+    <dimen name="identity_query_result_page_person_img_w">80dip</dimen>
+    <dimen name="identity_query_result_page_person_img_h">100dip</dimen>
+    <dimen name="identity_query_result_page_person_img_w1">150dip</dimen>
+    <dimen name="identity_query_result_page_person_img_h1">150dip</dimen>
+    <dimen name="identity_query_result_page_person_img_footer_w">47dip</dimen>
+    <dimen name="identity_query_result_page_person_img_footer_h">72dip</dimen>
+
+    <dimen name="identity_query_result_page_person_box_margin_t">30dip</dimen>
+    <dimen name="identity_query_result_page_info_content_margin_l">50dip</dimen>
+    <dimen name="identity_query_result_page_info_content_margin_t">20dip</dimen>
+
+    <dimen name="identity_query_result_page_info_box_margin_t">50dip</dimen>
+    <dimen name="identity_query_result_page_info_box_margin_l">50dip</dimen>
+
+    <!--custom camera-->
+    <dimen name="custom_camera_options_btn_h">100dip</dimen>
+    <dimen name="custom_camera_btn_capture_wh">70dip</dimen>
+    <dimen name="custom_camera_btn_back_wh">40dip</dimen>
+    <dimen name="custom_camera_btn_config_wh">80dip</dimen>
+    <dimen name="custom_camera_btn_save_cancel_wh">70dip</dimen>
+    <dimen name="custom_camera_btn_capture_back_distance">60dip</dimen>
+    <dimen name="custom_camera_capture_note_font_size">18sp</dimen>
+    <dimen name="custom_camera_save_cancel_margin">50dip</dimen>
+
+    <!--layout title-->
+    <dimen name="layout_title_text_size">20sp</dimen>
+    <dimen name="layout_title_height">50dip</dimen>
+    <dimen name="layout_title_left_w">60dip</dimen>
+    <dimen name="layout_title_left_margin_l">15dip</dimen>
+    <dimen name="layout_title_left_icon_w">20dip</dimen>
+    <dimen name="layout_title_left_icon_h">30dip</dimen>
+
+    <!--common-->
+    <dimen name="font_size_tiny">12sp</dimen>
+    <dimen name="font_size_min">14sp</dimen>
+    <dimen name="font_size_micro">16sp</dimen>
+    <dimen name="font_size_small">18sp</dimen>
+    <dimen name="font_size_medium">20sp</dimen>
+
+</resources>

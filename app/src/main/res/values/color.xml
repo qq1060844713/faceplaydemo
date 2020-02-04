@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="textColorPrimary">#ffffffff</color>
+    <color name="textColorPrimaryDark">#ff000000</color>
+
+    <color name="white">#fff</color>
+    <color name="transparent_gray">#A000</color>
+    <color name="transparent_def">#00000000</color>
+    <color name="transparent_disdef">#80000000</color>
+
+    <!-- setting -->
+    <color name="setting_bg">#ebeced</color>
+    <color name="unfocused">#ffffff</color>
+    <color name="pressed">#ebeced</color>
+    <color name="selected">#ebeced</color>
+    <color name="focused">#ebeced</color>
+    <color name="list_item_view_color">#c8c7cc</color>
+    <color name="settting_textcolor_son">#BABABA</color>
+
+    <!--title-->
+    <color name="title_bg">#0099FF</color>
+
+    <!--1v1-->
+    <color name="similarity_height">#0add85</color>
+    <color name="similarity_low">#f2bd0c</color>
+    <color name="loading_bg">#7000</color>
+
+    <!--1v1-->
+    <color name="bg_same_person">#0ADD66</color>
+    <color name="bg_not_same_person">#DCE4FA</color>
+
+</resources>
