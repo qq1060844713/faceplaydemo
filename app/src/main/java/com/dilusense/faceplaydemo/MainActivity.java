@@ -272,6 +272,7 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
                 scanWifiDevice();
                 deviceAdapter.changetShowDelImage(true);
             }  else {
+                SharedPrefUtility.setParam(ctx, SharedPrefUtility.WIFI_INFO, "");
                 setDisWifiStatus();
             }
         }
