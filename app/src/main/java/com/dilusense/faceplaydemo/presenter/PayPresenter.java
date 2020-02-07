@@ -55,22 +55,6 @@ public class PayPresenter {
 //                   mPayResultView.showPayFailedResult(MyConstants.MSG_NET_REQUEST_UNKNOWN);
 //            }
 //        });
-//        HttpUtils.doGetAsyn(RestClient.payHTTPProtocol+App.getInstent().getPayServIP()+"/face_play/living/living", new HttpUtils.CallBack() {
-//            @Override
-//            public void onRequestComplete(String result) {
-//                Gson gson = new Gson();
-//                PassPerson passPerson = gson.fromJson(result, PassPerson.class);
-//                if (passPerson !=null){
-//                    mPayResultView.showPayResult(passPerson);
-//                }
-//            }
-//
-//            @Override
-//            public void onRequestError(String result) {
-//                mPayResultView.showPayFailedResult(result);
-//            }
-//        });
-
         RetrofitUtils.getUrls().getPayResult().enqueue(new Callback<PassPerson>() {
             @Override
             public void onResponse(Call<PassPerson> call, Response<PassPerson> response) {

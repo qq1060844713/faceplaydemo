@@ -211,13 +211,18 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
     @Override
     public void showPayFailedResult(String errMsg) {
         disdialog();
-        IntentUtils.entryActivity(MainActivity.this,PaymentActivity.class);
+        if (errMsg.equals("timeout")) {
+            IntentUtils.entryActivity(MainActivity.this, PaymentActivity.class);
+        } else if (errMsg.contains("Failed to connect")) {
+            Toast.makeText(ctx, "未连接终端设备", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(ctx, MyConstants.MSG_NET_SERVER_INTERNAL_ERROR, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void showNoPayData(int errCode, String errMsg) {
         disdialog();
-        IntentUtils.entryActivity(MainActivity.this,PaymentActivity.class);
     }
 
     @Override

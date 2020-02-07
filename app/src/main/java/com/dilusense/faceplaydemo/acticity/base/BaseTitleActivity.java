@@ -95,6 +95,7 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadingDialog = new LoadingFragmentDialog();
+        loadingDialog.setCancelable(false);
         loadingDialog.setMessage("仿作伪验证中");
         mUtils = new WifiUtils(this);
     }
