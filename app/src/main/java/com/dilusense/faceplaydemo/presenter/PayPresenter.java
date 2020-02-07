@@ -1,6 +1,8 @@
 package com.dilusense.faceplaydemo.presenter;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.dilusense.faceplaydemo.App;
 import com.dilusense.faceplaydemo.databindings.SharedPrefUtility;
@@ -9,6 +11,7 @@ import com.dilusense.faceplaydemo.network.response.BaseResponse;
 import com.dilusense.faceplaydemo.network.result.PayInfoResult;
 import com.dilusense.faceplaydemo.utils.MyConstants;
 import com.dilusense.faceplaydemo.utils.ResponseCodeUtils;
+import com.dilusense.faceplaydemo.utils.RetrofitUtils;
 import com.dilusense.faceplaydemo.view.PayResultView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -29,14 +32,8 @@ public class PayPresenter {
 
     }
     public void payMoney(Context context, String money){
-        String wifiInfo = (String) SharedPrefUtility.getParam(context, SharedPrefUtility.WIFI_INFO, "");
-        Gson gson = new Gson();
-        JsonObject jObj = new JsonObject();
-        jObj.addProperty("wifi",wifiInfo);
-        jObj.addProperty("pay_monery",money);
-        RequestBody bodyjson = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(jObj));
         Call<BaseResponse<List<PayInfoResult>>> call = App.getRestClient()
-                .getCompareService() .payResult(MultipartUtils.createPartFromString(wifiInfo),MultipartUtils.createPartFromString(money));
+                .getCompareService() .getPayResult();
         call.enqueue(new Callback<BaseResponse<List<PayInfoResult>>>() {
 
             @Override
@@ -55,5 +52,16 @@ public class PayPresenter {
                    mPayResultView.showPayFailedResult(MyConstants.MSG_NET_REQUEST_UNKNOWN);
             }
         });
+//        RetrofitUtils.getUrls().getPayResult().enqueue(new Callback<List<PayInfoResult>>() {
+//            @Override
+//            public void onResponse(Call<List<PayInfoResult>> call, Response<List<PayInfoResult>> response) {
+//                   response.body();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<PayInfoResult>> call, Throwable t) {
+//                 Log.e("ss",t.getMessage());
+//            }
+//        });
     }
 }

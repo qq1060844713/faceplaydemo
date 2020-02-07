@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.jflavio1.wificonnector.interfaces.WifiStateListener;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 
@@ -34,26 +36,7 @@ public class wifiPresenter{
         wifiConnection = view;
     }
 
-    public void getWifiScanResult(Context context) {
-        String wserviceName = Context.WIFI_SERVICE;
-        WifiManager mWifiManager = (WifiManager) context.getSystemService(wserviceName);
-
-        mWifiManager.setWifiEnabled(true);
-        mWifiManager.startScan();
-
-        mWifiList.clear();
-        mWifiList = mWifiManager.getScanResults();
-
-        if (mWifiList != null && mWifiList.size() > 0) {
-            wifiConnection.showScanResult(mWifiList);
-        } else {
-            wifiConnection.showScanNoResult("暂无wifi数据");
-        }
-    }
     public void createWifiConnectorObject(Context context){
-        String wserviceName = Context.WIFI_SERVICE;
-        WifiManager mWifiManager = (WifiManager) context.getSystemService(wserviceName);
-        mWifiManager.setWifiEnabled(true);
         wifiConnector = new WifiConnector(context);
         wifiConnector.setLog(true);
         wifiConnector.registerWifiStateListener(new WifiStateListener() {
@@ -67,13 +50,7 @@ public class wifiPresenter{
                 wifiConnector.showWifiList(new ShowWifiListener() {
                     @Override
                     public void onNetworksFound(WifiManager wifiManager, List<ScanResult> wifiScanResult) {
-                        List<ScanResult> wifiNum = new ArrayList<>();
-                        for (ScanResult scanResult:wifiScanResult) {
-                             if (MyConstants.isLockNessMonster(scanResult.SSID)){
-                                 wifiNum.add(scanResult);
-                             }
-                        }
-                        wifiConnection.showScanResult(wifiNum);
+                        wifiConnection.showScanResult(wifiScanResult);
                     }
 
                     @Override
@@ -104,7 +81,21 @@ public class wifiPresenter{
             }
         });
     }
-
+    public static List<ScanResult> filterScanResult(final List<ScanResult> list) {
+        LinkedHashMap<String, ScanResult> linkedMap = new LinkedHashMap<>(list.size());
+        for (ScanResult rst : list) {
+            if (linkedMap.containsKey(rst.SSID)) {
+                if (rst.level > linkedMap.get(rst.SSID).level) {
+                    linkedMap.put(rst.SSID, rst);
+                }
+                continue;
+            }
+            linkedMap.put(rst.SSID, rst);
+        }
+        list.clear();
+        list.addAll(linkedMap.values());
+        return list;
+    }
     public void destroyWifiConnectorListeners() {
         wifiConnector.unregisterWifiStateListener();
     }

@@ -4,13 +4,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -36,12 +40,33 @@ public class SplashActivity extends Activity {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CHANGE_WIFI_MULTICAST_STATE,
             Manifest.permission.INTERNET};
+    private static final int LOCATION_CODE = 1;
+    /**
+     * 位置权限
+     */
+    public void quanxian(final Activity context) {
+        try {
+            String wserviceName = Context.WIFI_SERVICE;
+            WifiManager mWifiManager = (WifiManager) context.getSystemService(wserviceName);
+            if (!isWifiAvailable()){
+                mWifiManager.setWifiEnabled(true);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(context,
+                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_CODE);
+                }
+            }
+        } catch (SecurityException e) {
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         bind = ButterKnife.bind(this);
         PermissionsUtils.getInstance().chekPermissions(this, permissions, permissionsResult);
+        quanxian(this);
     }
 
     PermissionsUtils.IPermissionsResult permissionsResult = new PermissionsUtils.IPermissionsResult() {
@@ -64,9 +89,8 @@ public class SplashActivity extends Activity {
         WifiInfo info = wifiMgr.getConnectionInfo();
         wifiId = info != null ? info.getSSID() : null;
         try {
-            if (isWifi(SplashActivity.this) && MyConstants.isLockNessMonster(wifiId)) {
-                wifi_connect.setVisibility(View.VISIBLE);
-                wifi_disconnect.setVisibility(View.GONE);
+//            if (isWifi(SplashActivity.this) && MyConstants.isLockNessMonster(wifiId)) {
+            if (isWifi(SplashActivity.this)) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -75,8 +99,6 @@ public class SplashActivity extends Activity {
                     }
                 }, 2000);
             } else {
-                wifi_connect.setVisibility(View.GONE);
-                wifi_disconnect.setVisibility(View.VISIBLE);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -104,4 +126,11 @@ public class SplashActivity extends Activity {
         super.onDestroy();
         bind.unbind();
     }
+
+    public boolean isWifiAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected() && networkInfo.getType() == ConnectivityManager.TYPE_WIFI);
+    }
+
 }

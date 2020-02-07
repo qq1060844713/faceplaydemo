@@ -7,6 +7,7 @@ public class BaseResponse<T> extends SimpleResponse{
     private T data;
 
     public T getData() {
+
         return data;
     }
 

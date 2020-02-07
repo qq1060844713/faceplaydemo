@@ -2,16 +2,20 @@ package com.dilusense.faceplaydemo.acticity.base;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,11 +24,17 @@ import android.widget.Toast;
 
 import com.dilusense.faceplaydemo.MainActivity;
 import com.dilusense.faceplaydemo.R;
+import com.dilusense.faceplaydemo.adapter.WifiScanAdapterItemClickListener;
+import com.dilusense.faceplaydemo.adapter.deviceAdapter;
 import com.dilusense.faceplaydemo.databindings.AbstractTemplateActivity;
 import com.dilusense.faceplaydemo.databindings.CommonAction;
 import com.dilusense.faceplaydemo.databindings.SharedPrefUtility;
+import com.dilusense.faceplaydemo.net.utils.WifiUtils;
 import com.dilusense.faceplaydemo.service.NetBroadcastReceiver;
+import com.dilusense.faceplaydemo.utils.CustomToast;
+import com.dilusense.faceplaydemo.utils.MyConstants;
 import com.hb.dialog.dialog.LoadingDialog;
+import com.hb.dialog.dialog.LoadingFragmentDialog;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -66,15 +76,27 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
     RelativeLayout rel_main;
     @BindView(R.id.rel_splash)
     RelativeLayout rel_splash;
-    private boolean netStatus;
+    public boolean netStatus;
     final Timer t = new Timer();
-    private LoadingDialog loadingDialog;
+    private LoadingFragmentDialog loadingDialog;
+    private ProgressDialog progressdlg = null;
+    private WifiUtils mUtils;
+    private CustomToast toast;
 
+    public void toastMessage(int content) {
+        if (toast != null) {
+            toast.hide();
+        }
+        toast = new CustomToast(BaseTitleActivity.this,
+                (ViewGroup) this.findViewById(R.id.toast_custom_parent));
+        toast.show(MyConstants.codeMsg(content), 500);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadingDialog = new LoadingDialog(this);
-        loadingDialog.setMessage("正在请求刷脸终端检测......");
+        loadingDialog = new LoadingFragmentDialog();
+        loadingDialog.setMessage("加载中...");
+        mUtils = new WifiUtils(this);
     }
 
 
@@ -96,7 +118,7 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
     }
 
     public void showDialog(){
-        loadingDialog.show();
+        loadingDialog.show(getSupportFragmentManager(), "msg");
     }
 
     public void disdialog(){
@@ -104,7 +126,7 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
             public void run() {
                 loadingDialog.dismiss();
             }
-        }, 2000);
+        }, 500);
     }
 
     @Override
@@ -114,7 +136,7 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
         registerBroadcastReceiver();
     }
 
-    private void registerBroadcastReceiver() {
+    public void registerBroadcastReceiver() {
         if (netBroadcastReceiver == null) {
             netBroadcastReceiver = new NetBroadcastReceiver();
             IntentFilter filter = new IntentFilter();
@@ -140,18 +162,15 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
     public void setMainTitle(String title) {
         rel_splash.setVisibility(View.GONE);
         rel_main.setVisibility(View.VISIBLE);
-        title_left_main.setVisibility(View.GONE);
         tv_title_txt_main.setText(title);
     }
 
-    public void setWifiStatus(){
-        wifi_connect.setVisibility(View.VISIBLE);
-        wifi_disconnect.setVisibility(View.GONE);
+    public void setWifiStatus(String wifiName){
+        tv_title_txt_main.setText("已连接"+"("+wifiName+")");
     }
 
-    private void setDisWifiStatus() {
-        wifi_connect.setVisibility(View.GONE);
-        wifi_disconnect.setVisibility(View.VISIBLE);
+    public void setDisWifiStatus() {
+        tv_title_txt_main.setText("未连接终端设备");
     }
 
     public void setTitle1() {
@@ -195,7 +214,7 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
         isNetConnect();
     }
 
-    private void isNetConnect() {
+    public void isNetConnect() {
         Message message=new Message();
         if (netStatus){
             message.what=99;
@@ -206,15 +225,40 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
         }
     }
     @SuppressLint("HandlerLeak")
-    Handler handler = new Handler(){
+   public Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what != 100){
+                WifiInfo currentWifiInfo = mUtils.getCurrentWifiInfo();
+                String currentWifiSSID = currentWifiInfo.getSSID().replace("\"","").replace("\"","");
+                setWifiStatus(currentWifiSSID);
+                getWifiStatus(currentWifiSSID);
                 SharedPrefUtility.setParam(ctx, SharedPrefUtility.IS_WIFI, true);
+                SharedPrefUtility.setParam(ctx, SharedPrefUtility.WIFI_INFO, currentWifiSSID);
             }else {
+                setDisWifiStatus();
                 SharedPrefUtility.setParam(ctx, SharedPrefUtility.IS_WIFI, false);
+                SharedPrefUtility.setParam(ctx, SharedPrefUtility.WIFI_INFO, "暂无wifi");
             }
         }
     };
+
+    public String getWifiStatus(String currentWifiSSID) {
+           return currentWifiSSID;
+    }
+
+    public void showDialog_wifi() {
+        progressdlg = new ProgressDialog(this);
+        progressdlg.setCanceledOnTouchOutside(false);
+        progressdlg.setCancelable(false);
+        progressdlg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressdlg.setMessage("加载中...");
+        progressdlg.show();
+    }
+    public void progressDismiss() {
+        if (progressdlg != null) {
+            progressdlg.dismiss();
+        }
+    }
 }

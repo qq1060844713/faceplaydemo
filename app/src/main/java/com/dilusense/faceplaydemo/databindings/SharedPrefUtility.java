@@ -15,6 +15,7 @@ public class SharedPrefUtility {
     public static final String IS_LOGIN="isLogin";
     public static final String IS_WIFI="isWIFI";
     public static final String WIFI_INFO="WIFI_INFO";
+    public static final String WIFI_INFO_ID = "WIFI_INFO_ID";
 
 
     /**

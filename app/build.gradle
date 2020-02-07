@@ -96,4 +96,5 @@ dependencies {
     implementation 'com.github.jflavio1:WifiConnector:v1.7'
     implementation 'ru.alexbykov:nopermission:1.1.2'
     implementation 'com.github.ihsanbal:LoggingInterceptor:1.0.4'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
 }

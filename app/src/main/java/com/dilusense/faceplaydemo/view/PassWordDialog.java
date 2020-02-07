@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dilusense.faceplaydemo.R;
@@ -18,6 +19,7 @@ public class PassWordDialog extends Dialog {
     private Button lianjie;//确定按钮
     private TextView titleTv;//消息标题文本
     private EditText et_phone;//输入电话
+    private ImageView close;//输入电话
     private String titleStr;//从外界设置的title文本
     private String messageStr;//从外界设置的消息文本
     //确定文本和取消文本的显示内容
@@ -77,6 +79,12 @@ public class PassWordDialog extends Dialog {
      */
     private void initEvent() {
         //设置确定按钮被点击后，向外界提供监听
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 dismiss();
+            }
+        });
         lianjie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,9 +107,9 @@ public class PassWordDialog extends Dialog {
 //            messageTv.setText(messageStr);
         }
         //如果设置按钮的文字
-        if (yesStr != null) {
-            lianjie.setText(yesStr);
-        }
+//        if (yesStr != null) {
+//            lianjie.setText(yesStr);
+//        }
     }
 
     /**
@@ -109,8 +117,9 @@ public class PassWordDialog extends Dialog {
      */
     private void initView() {
         lianjie = (Button) findViewById(R.id.lianjie);
-        titleTv = (TextView) findViewById(R.id.title);
+        titleTv = (TextView) findViewById(R.id.device_name);
         et_phone = (EditText) findViewById(R.id.et_phone);
+        close = (ImageView) findViewById(R.id.close);
     }
 
     /**

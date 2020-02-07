@@ -37,8 +37,10 @@ import com.dilusense.faceplaydemo.utils.IntentUtils;
 import com.dilusense.faceplaydemo.utils.MyConstants;
 import com.dilusense.faceplaydemo.utils.PermissionUtil;
 import com.dilusense.faceplaydemo.utils.PermissionsUtils;
+import com.dilusense.faceplaydemo.view.PassWordDialog;
 import com.dilusense.faceplaydemo.view.wifiConnection;
 import com.hb.dialog.dialog.LoadingDialog;
+import com.hb.dialog.dialog.LoadingFragmentDialog;
 import com.hb.dialog.myDialog.MyAlertInputDialog;
 import com.jflavio1.wificonnector.WifiConnector;
 import com.jflavio1.wificonnector.interfaces.ConnectionResultListener;
@@ -59,12 +61,10 @@ public class DeviceActivity extends BaseTitleActivity implements wifiConnection 
     ListView listview;
     private wifiPresenter wifiPresenter;
     private Unbinder bind;
-    private static final String TAG = "Wifi";
     WeakHandler handler;
     private MyAlertInputDialog myAlertInputDialog;
     private WifiConnector wifiConnector;
-    private LoadingDialog loadingDialog;
-
+    private PassWordDialog passWordDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,8 +72,6 @@ public class DeviceActivity extends BaseTitleActivity implements wifiConnection 
         setContentView(R.layout.activity_device);
         bind = ButterKnife.bind(this);
         handler = new WeakHandler();
-        loadingDialog = new LoadingDialog(this);
-        loadingDialog.setMessage("搜索wifi。。。。");
         initView();
     }
 
@@ -82,8 +80,8 @@ public class DeviceActivity extends BaseTitleActivity implements wifiConnection 
         myAlertInputDialog = new MyAlertInputDialog(this).builder().setTitle("请输入密码").setEditText("");
         wifiConnector = new WifiConnector(this);
         wifiPresenter = new wifiPresenter(this);
-        loadingDialog.show();
         wifiPresenter.createWifiConnectorObject(DeviceActivity.this);
+        showDialog();
     }
 
     @Override
@@ -104,38 +102,35 @@ public class DeviceActivity extends BaseTitleActivity implements wifiConnection 
 
     @Override
     public void showScanResult(final List<ScanResult> wifiResult) {
-        List<WifiResult> crms = new ArrayList<WifiResult>();
         handler.post(new Runnable() {
             @Override
             public void run() {
                 device_button.setVisibility(View.GONE);
                 listview.setVisibility(View.VISIBLE);
-                loadingDialog.dismiss();
                 List<ScanResult> crms = new ArrayList<>();
+                disdialog();
                 for (ScanResult cr : wifiResult) {
                     crms.add(cr);
                 }
                 if (crms.size() < 1) {
                     return;
                 }
-                listview.setAdapter(new deviceAdapter(ctx, crms, new WifiScanAdapterItemClickListener() {
+                listview.setAdapter(new deviceAdapter(ctx, "",wifiConnector, false, crms, new WifiScanAdapterItemClickListener() {
                     @Override
                     public void onClick(final ScanResult crm) {
-                        if (crm.capabilities != "") {
-                            myAlertInputDialog.setPositiveButton("确认", new View.OnClickListener() {
+                        if (crm.capabilities.contains("WPA")) {
+                            passWordDialog = new PassWordDialog(ctx);
+                            passWordDialog.setTitle("请输入" + crm.SSID + "的密码");
+                            passWordDialog.setYesOnclickListener("", new PassWordDialog.onYesOnclickListener() {
                                 @Override
-                                public void onClick(View v) {
+                                public void onYesClick(String phone) {
+                                    showDialog_wifi();
                                     connectToWifiAccessPoint(crm, myAlertInputDialog.getResult());
-                                    myAlertInputDialog.dismiss();
-                                }
-                            }).setNegativeButton("取消", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    myAlertInputDialog.dismiss();
                                 }
                             });
-                            myAlertInputDialog.show();
-                        }   else {
+                            passWordDialog.show();
+                        } else {
+                            showDialog_wifi();
                             connectToWifiAccessPoint(crm, "");
                         }
                     }
@@ -162,14 +157,21 @@ public class DeviceActivity extends BaseTitleActivity implements wifiConnection 
         wifiConnector.connectToWifi(new ConnectionResultListener() {
             @Override
             public void successfulConnect(String SSID) {
-                setWifiStatus();
-                SharedPrefUtility.setParam(ctx, SharedPrefUtility.WIFI_INFO, SSID);
-                IntentUtils.entryActivity(DeviceActivity.this,MainActivity.class);
+                progressDismiss();
+                SharedPrefUtility.setParam(ctx, SharedPrefUtility.WIFI_INFO, scanResult.SSID);
+                SharedPrefUtility.setParam(ctx, SharedPrefUtility.WIFI_INFO_ID, scanResult.centerFreq0);
+                IntentUtils.entryActivity(DeviceActivity.this, MainActivity.class);
             }
 
             @Override
             public void errorConnect(int codeReason) {
-                Toast.makeText(ctx, "Error on connecting to wifi: " + scanResult.SSID + "\nError code: " + codeReason, Toast.LENGTH_SHORT).show();
+                progressDismiss();
+                toastMessage(codeReason);
+                if (codeReason == 2503) {
+                    SharedPrefUtility.setParam(ctx, SharedPrefUtility.WIFI_INFO, scanResult.SSID);
+                    SharedPrefUtility.setParam(ctx, SharedPrefUtility.WIFI_INFO_ID, scanResult.centerFreq0);
+                    IntentUtils.entryActivity(DeviceActivity.this, MainActivity.class);
+                }
             }
 
             @Override

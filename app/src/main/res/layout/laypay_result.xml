@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:background="@drawable/shape_corner_title"
+              android:layout_width="match_parent"
+              android:layout_marginLeft="30dp"
+              android:layout_marginRight="30dp"
+              android:layout_height="80dp">
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_marginLeft="60dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/icon_wrong_large"
+            />
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:text="付款失败"
+            android:textSize="32dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/icon_right_large"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="付款成功"
+            android:textColor="@color/white"
+            android:textSize="32dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>
