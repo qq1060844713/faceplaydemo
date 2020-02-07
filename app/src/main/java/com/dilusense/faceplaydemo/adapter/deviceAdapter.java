@@ -74,7 +74,7 @@ public class deviceAdapter extends BaseAdapter {
             if (ssid.equals(mModels.get(position).SSID)) {
                 holder.lianjiejieguo.setVisibility(View.VISIBLE);
                 holder.disconnent.setText("(点击断开)");
-                mModels.set(0,scanResult);
+//                mModels.set(0,scanResult);
             }
         }
         holder.wifi_item.setOnClickListener(new View.OnClickListener() {

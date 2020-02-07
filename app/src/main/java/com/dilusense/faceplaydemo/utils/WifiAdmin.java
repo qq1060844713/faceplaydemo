@@ -220,6 +220,12 @@ public class WifiAdmin {
         }
         return config;
     }
+    /**
+     * 获取当前手机所连接的wifi信息
+     */
+    public WifiInfo getCurrentWifiInfo() {
+        return mWifiManager.getConnectionInfo();
+    }
 
     private WifiConfiguration IsExsits(String SSID) {
         List<WifiConfiguration> existingConfigs = mWifiManager.getConfiguredNetworks();
@@ -244,6 +250,15 @@ public class WifiAdmin {
         }
         list.clear();
         list.addAll(linkedMap.values());
+        WifiInfo currentWifiInfo = getCurrentWifiInfo();
+        String currentWifiSSID = currentWifiInfo.getSSID().replace("\"","").replace("\"","");
+        for (ScanResult scanResult:list) {
+             if (scanResult.SSID.equals(currentWifiSSID)){
+                 list.add(0,scanResult);
+                 list.remove(scanResult);
+                 break;
+             }
+        }
         return list;
     }
 }
