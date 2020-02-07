@@ -1,6 +1,7 @@
 package com.dilusense.faceplaydemo.net.api;
 
 import com.dilusense.faceplaydemo.network.response.BaseResponse;
+import com.dilusense.faceplaydemo.network.result.PassPerson;
 import com.dilusense.faceplaydemo.network.result.PayInfoResult;
 
 import java.util.List;
@@ -21,8 +22,11 @@ public interface PayAPI {
             @Part("pay_money") RequestBody pay_money
     );
 
+//    @GET("/face_play/living/living")
+//    Call<BaseResponse<List<PayInfoResult>>> getPayResult();
+
     @GET("/face_play/living/living")
-    Call<BaseResponse<List<PayInfoResult>>> getPayResult();
+    Call<PassPerson> getPayResult();
 
     @GET("/face_play/play_result")
     Call<BaseResponse<List<PayInfoResult>>> getPayResultliving();

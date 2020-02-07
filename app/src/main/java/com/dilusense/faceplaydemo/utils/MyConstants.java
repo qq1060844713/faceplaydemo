@@ -27,7 +27,7 @@ public class MyConstants {
         }
     }
 
-    public static String MSG_NET_REQUEST_UNKNOWN = "未知错误";
+    public static String MSG_NET_REQUEST_UNKNOWN = "网络请求异常";
     public static String MSG_NET_SERVER_ERROR = "网络错误";
     public static String MSG_NET_SERVER_BUSY = "服务繁忙";
     public static String MSG_NET_SERVER_INTERNAL_ERROR = "服务器内部错误";
@@ -45,8 +45,12 @@ public class MyConstants {
             return "未知错误";
         } else if (code == 2600) {
             return "发现wifi网络";
-        } else if (code == 2601) {
-            return "没有wifi";
+        } else if (code == -1) {
+            return "未知错误";
+        } else if (code == 10001) {
+            return "参数错误";
+        } else if (code == 10002) {
+            return "刷脸终端正忙";
         }
         return "未知错误";
     }

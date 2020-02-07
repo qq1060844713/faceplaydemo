@@ -40,7 +40,7 @@ public class RetrofitUtils {
     /**
      * 读取超时时间
      */
-    private static final long HTTP_READ_TIMEOUT = 30L;
+    private static final long HTTP_READ_TIMEOUT = 10L;
     /**
      * 写入超时时间
      */

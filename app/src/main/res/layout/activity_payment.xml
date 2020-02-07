@@ -18,9 +18,10 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
+                android:layout_gravity="center"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="10dp">
 
@@ -74,10 +75,11 @@
             <LinearLayout
                 android:id="@+id/show_pay"
                 android:orientation="vertical"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="250dp"
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="30dp"
@@ -106,32 +108,39 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <RelativeLayout
-                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="140dp"
+                            android:layout_gravity="center_horizontal">
+
                             <ImageView
                                 android:id="@+id/img_url"
-                                android:layout_width="100dp"
+                                android:layout_width="120dp"
                                 android:layout_height="120dp"
-                                android:layout_marginTop="20dp"
+                                android:adjustViewBounds="true"
+                                android:padding="1dip"
                                 android:src="@mipmap/bg_photo"/>
 
                             <ImageView
-                                android:visibility="gone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignBottom="@+id/img_url"
-                                android:layout_marginBottom="2dp"
+                                android:id="@+id/pay_result_error"
                                 android:layout_centerHorizontal="true"
-                                android:src="@mipmap/icon_wrong_large"/>
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_alignParentBottom="true"
+                                android:src="@mipmap/icon_wrong_large"
+                                android:visibility="gone"/>
+
                             <ImageView
+                                android:visibility="gone"
                                 android:id="@+id/pay_result_right"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignBottom="@+id/img_url"
-                                android:layout_marginBottom="2dp"
                                 android:layout_centerHorizontal="true"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_alignParentBottom="true"
                                 android:src="@mipmap/icon_right_large"/>
                         </RelativeLayout>
 
@@ -193,7 +202,7 @@
                             />
 
                         <Button
-                            android:id="@+id/pay"
+                            android:id="@+id/pay_ment"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_gravity="right|center_vertical"

@@ -14,17 +14,20 @@
                   />
 
                <ImageView
+                   android:id="@+id/pay_ment_right"
+                   android:visibility="gone"
                    android:layout_centerHorizontal="true"
-                   android:layout_width="60dp"
-                   android:layout_height="60dp"
+                   android:layout_width="50dp"
+                   android:layout_height="50dp"
                    android:layout_alignParentBottom="true"
                    android:layout_marginBottom="0dp"
                    android:src="@mipmap/icon_right_large"/>
                <ImageView
                    android:visibility="gone"
+                   android:id="@+id/pay_ment_error"
                    android:layout_centerHorizontal="true"
-                   android:layout_width="70dp"
-                   android:layout_height="70dp"
+                   android:layout_width="50dp"
+                   android:layout_height="50dp"
                    android:layout_alignParentBottom="true"
                    android:layout_marginBottom="0dp"
                    android:src="@mipmap/icon_wrong_large"/>

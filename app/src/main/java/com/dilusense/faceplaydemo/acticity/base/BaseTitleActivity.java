@@ -95,7 +95,7 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadingDialog = new LoadingFragmentDialog();
-        loadingDialog.setMessage("加载中...");
+        loadingDialog.setMessage("仿作伪验证中");
         mUtils = new WifiUtils(this);
     }
 
@@ -118,6 +118,10 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
     }
 
     public void showDialog(){
+        loadingDialog.show(getSupportFragmentManager(), "msg");
+    }
+    public void showWifiDialog(){
+        loadingDialog.setMessage("加载中");
         loadingDialog.show(getSupportFragmentManager(), "msg");
     }
 
@@ -160,6 +164,12 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
         tv_title_txt.setText(title);
     }
     public void setMainTitle(String title) {
+        rel_splash.setVisibility(View.GONE);
+        rel_main.setVisibility(View.VISIBLE);
+        tv_title_txt_main.setText(title);
+    }
+    public void setMainTitle1(String title) {
+        title_left_main.setVisibility(View.GONE);
         rel_splash.setVisibility(View.GONE);
         rel_main.setVisibility(View.VISIBLE);
         tv_title_txt_main.setText(title);

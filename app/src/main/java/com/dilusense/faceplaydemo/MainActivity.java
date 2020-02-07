@@ -1,6 +1,7 @@
 package com.dilusense.faceplaydemo;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
@@ -29,6 +30,7 @@ import com.dilusense.faceplaydemo.adapter.WifiScanAdapterItemClickListener;
 import com.dilusense.faceplaydemo.adapter.deviceAdapter;
 import com.dilusense.faceplaydemo.databindings.SharedPrefUtility;
 import com.dilusense.faceplaydemo.net.utils.WifiUtils;
+import com.dilusense.faceplaydemo.network.result.PassPerson;
 import com.dilusense.faceplaydemo.network.result.PayInfoResult;
 import com.dilusense.faceplaydemo.presenter.PayPresenter;
 import com.dilusense.faceplaydemo.utils.IntentUtils;
@@ -188,36 +190,45 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
 
     @OnClick(R.id.pay_result)
     public void pay_reslut() {
-        Boolean isWiFi = (Boolean) SharedPrefUtility.getParam(ctx, SharedPrefUtility.IS_WIFI, false);
-        if (isWiFi) {
-            if (pay_num.getText().length() != 0) {
-                showDialog();
-                payPresenter.payMoney(this, pay_num.getText().toString());
-            } else {
-                Toast.makeText(ctx, "金额不能为空", Toast.LENGTH_SHORT).show();
-            }
+        if (pay_num.getText().length() != 0) {
+            showDialog();
+            payPresenter.payMoney(this, pay_num.getText().toString());
         } else {
-            Toast.makeText(ctx, "当前未连接指定wifi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ctx, "金额不能为空", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void showPayResult(List<PayInfoResult> payResult) {
-        disdialog();
-        if (payResult.size() > 0) {
-            IntentUtils.entryActivity(MainActivity.this, PaymentActivity.class);
+    public void showPayResult(PassPerson payResult) {
+        if (payResult.getData().getData()!=null) {
+            disdialog();
+            Intent intent = new Intent(MainActivity.this, PaymentActivity.class);
+            intent.putExtra("person_data", payResult);
+            startActivity(intent);
         }
     }
 
     @Override
     public void showPayFailedResult(String errMsg) {
         disdialog();
-        Toast.makeText(ctx, errMsg, Toast.LENGTH_SHORT).show();
+        IntentUtils.entryActivity(MainActivity.this,PaymentActivity.class);
     }
 
     @Override
     public void showNoPayData(int errCode, String errMsg) {
-        IntentUtils.entryActivity(MainActivity.this, PaymentActivity.class);
+        disdialog();
+        IntentUtils.entryActivity(MainActivity.this,PaymentActivity.class);
+    }
+
+    @Override
+    public void showPayResultData(String errMsg) {
+        Toast.makeText(ctx, errMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showErroePayResultData(int errMsg) {
+        disdialog();
+        Toast.makeText(ctx, MyConstants.codeMsg(errMsg), Toast.LENGTH_SHORT).show();
     }
 
     @Override

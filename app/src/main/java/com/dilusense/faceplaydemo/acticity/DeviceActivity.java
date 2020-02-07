@@ -81,7 +81,7 @@ public class DeviceActivity extends BaseTitleActivity implements wifiConnection 
         wifiConnector = new WifiConnector(this);
         wifiPresenter = new wifiPresenter(this);
         wifiPresenter.createWifiConnectorObject(DeviceActivity.this);
-        showDialog();
+        showWifiDialog();
     }
 
     @Override
@@ -125,7 +125,7 @@ public class DeviceActivity extends BaseTitleActivity implements wifiConnection 
                                 @Override
                                 public void onYesClick(String phone) {
                                     showDialog_wifi();
-                                    connectToWifiAccessPoint(crm, myAlertInputDialog.getResult());
+                                    connectToWifiAccessPoint(crm, phone);
                                 }
                             });
                             passWordDialog.show();
