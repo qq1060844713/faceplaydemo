@@ -146,7 +146,7 @@ public class PaymentActivity extends BaseTitleActivity implements PayResultView{
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         String wifiName = (String) SharedPrefUtility.getParam(ctx, SharedPrefUtility.WIFI_INFO, "");
-        setMainTitle1("已连接" + "(" + wifiName + ")");
+        setMainTitle(0,"已连接" + "(" + wifiName + ")");
         person = (PassPerson) getIntent().getSerializableExtra("person_data");
         if (person != null) {
             getPersonData();
@@ -208,7 +208,7 @@ public class PaymentActivity extends BaseTitleActivity implements PayResultView{
                 }
             }, 1000 * 2);
         } else {
-            showMessage("请输入六位数字");
+            toastMessage(101,"请输入六位数字");
         }
     }
 

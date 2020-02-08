@@ -94,7 +94,7 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        setMainTitle("已连接" + "(" + wifiName + ")");
+        setMainTitle(1,"已连接" + "(" + wifiName + ")");
         wifi_list.setVisibility(View.GONE);
     }
 
@@ -165,7 +165,7 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
             public void errorConnect(int codeReason) {
                 Log.d("wifi","连接失败");
                 passWordDialog.dismiss();
-                toastMessage(2504);
+                toastMessage(2504,"");
                 loadingDialog.dismiss();
             }
 
@@ -193,11 +193,11 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
 
     @OnClick(R.id.pay_result)
     public void pay_reslut() {
+        loadingDialog.show(getSupportFragmentManager(), "msg");
         if (pay_num.getText().length() != 0) {
-            showDialog();
             payPresenter.payMoney(this, pay_num.getText().toString());
         } else {
-            showMessage("金额不能为空");
+            toastMessage(101,"金额不能为空");
         }
     }
 

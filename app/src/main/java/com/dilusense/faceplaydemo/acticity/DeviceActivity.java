@@ -1,32 +1,17 @@
 package com.dilusense.faceplaydemo.acticity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
-import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.badoo.mobile.util.WeakHandler;
 import com.dilusense.faceplaydemo.MainActivity;
@@ -34,30 +19,18 @@ import com.dilusense.faceplaydemo.R;
 import com.dilusense.faceplaydemo.acticity.base.BaseTitleActivity;
 import com.dilusense.faceplaydemo.adapter.WifiScanAdapterItemClickListener;
 import com.dilusense.faceplaydemo.adapter.deviceAdapter;
-import com.dilusense.faceplaydemo.databindings.SharedPrefUtility;
-import com.dilusense.faceplaydemo.model.WifiResult;
 import com.dilusense.faceplaydemo.presenter.wifiPresenter;
-import com.dilusense.faceplaydemo.service.NetBroadcastReceiver;
 import com.dilusense.faceplaydemo.utils.IntentUtils;
-import com.dilusense.faceplaydemo.utils.MyConstants;
-import com.dilusense.faceplaydemo.utils.PermissionUtil;
-import com.dilusense.faceplaydemo.utils.PermissionsUtils;
 import com.dilusense.faceplaydemo.utils.WifiAdmin;
 import com.dilusense.faceplaydemo.view.PassWordDialog;
 import com.dilusense.faceplaydemo.view.wifiConnection;
-import com.hb.dialog.dialog.LoadingDialog;
-import com.hb.dialog.dialog.LoadingFragmentDialog;
 import com.hb.dialog.myDialog.MyAlertInputDialog;
 import com.jflavio1.wificonnector.WifiConnector;
-import com.jflavio1.wificonnector.interfaces.ConnectionResultListener;
-import com.mingle.widget.LoadingView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class DeviceActivity extends BaseTitleActivity implements wifiConnection {
@@ -165,7 +138,7 @@ public class DeviceActivity extends BaseTitleActivity implements wifiConnection 
             int wifiId = mWifiManager.addNetwork(CreateWifiInfo(crm, password));
             if (wifiId == -1) {
                 disdialog();
-                toastMessage(2504);
+                toastMessage(2504,"");
                 return -1;
             }
             return wifiId;
@@ -247,7 +220,6 @@ public class DeviceActivity extends BaseTitleActivity implements wifiConnection 
     @Override
     protected void onPause() {
         super.onPause();
-        ;
         unregisterReceiver(netBroadcastReceiver);
     }
 }

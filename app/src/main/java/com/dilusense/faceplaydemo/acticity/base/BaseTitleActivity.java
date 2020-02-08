@@ -1,7 +1,6 @@
 package com.dilusense.faceplaydemo.acticity.base;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,19 +12,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dilusense.faceplaydemo.MainActivity;
 import com.dilusense.faceplaydemo.R;
-import com.dilusense.faceplaydemo.adapter.WifiScanAdapterItemClickListener;
-import com.dilusense.faceplaydemo.adapter.deviceAdapter;
 import com.dilusense.faceplaydemo.databindings.AbstractTemplateActivity;
 import com.dilusense.faceplaydemo.databindings.CommonAction;
 import com.dilusense.faceplaydemo.databindings.SharedPrefUtility;
@@ -33,11 +27,9 @@ import com.dilusense.faceplaydemo.net.utils.WifiUtils;
 import com.dilusense.faceplaydemo.service.NetBroadcastReceiver;
 import com.dilusense.faceplaydemo.utils.CustomToast;
 import com.dilusense.faceplaydemo.utils.MyConstants;
-import com.hb.dialog.dialog.LoadingDialog;
 import com.hb.dialog.dialog.LoadingFragmentDialog;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,28 +69,10 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
     @BindView(R.id.rel_splash)
     RelativeLayout rel_splash;
     public boolean netStatus;
-    final Timer t = new Timer();
     public LoadingFragmentDialog loadingDialog;
     private ProgressDialog progressdlg = null;
     private WifiUtils mUtils;
     private CustomToast toast;
-
-    public void toastMessage(int content) {
-        if (toast != null) {
-            toast.hide();
-        }
-        toast = new CustomToast(BaseTitleActivity.this,
-                (ViewGroup) this.findViewById(R.id.toast_custom_parent));
-        toast.show(MyConstants.codeMsg(content), 500);
-    }
-    public void showMessage(String content) {
-        if (toast != null) {
-            toast.hide();
-        }
-        toast = new CustomToast(BaseTitleActivity.this,
-                (ViewGroup) this.findViewById(R.id.toast_custom_parent));
-        toast.show(content, 500);
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,22 +88,10 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
         super.onAttachedToWindow();
         unbinder = ButterKnife.bind(this);
         ctx = this;
-        initBigImageShowResource();
-        //把Activity添加到集合里面
         CommonAction.getInstance().addActivity(this);
-        init();
     }
 
-    public void init() {
-    }
-
-    public void initBigImageShowResource(){
-    }
-
-    public void showDialog(){
-        loadingDialog.show(getSupportFragmentManager(), "msg");
-    }
-    public void showWifiDialog(){
+    public void showWifiDialog() {
         loadingDialog.setMessage("搜索中");
         loadingDialog.show(getSupportFragmentManager(), "msg");
     }
@@ -137,7 +99,16 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
     public void disdialog() {
         loadingDialog.dismiss();
     }
-
+    public void toastMessage(int content,String msg) {
+        if (toast != null) {
+            toast.hide();
+        }
+        toast = new CustomToast(BaseTitleActivity.this, (ViewGroup) this.findViewById(R.id.toast_custom_parent));
+        toast.show(MyConstants.codeMsg(content), 500);
+        if (content == 101){
+            toast.show(msg,500);
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -156,25 +127,16 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
         }
     }
 
-
-    public void setTitle(String title) {
-
-        tv_title_txt.setText(title);
-    }
-
     public void setNewTitle(String title) {
         rel_splash.setVisibility(View.VISIBLE);
         rel_main.setVisibility(View.GONE);
         title_left.setVisibility(View.GONE);
         tv_title_txt.setText(title);
     }
-    public void setMainTitle(String title) {
-        rel_splash.setVisibility(View.GONE);
-        rel_main.setVisibility(View.VISIBLE);
-        tv_title_txt_main.setText(title);
-    }
-    public void setMainTitle1(String title) {
-        title_left_main.setVisibility(View.GONE);
+    public void setMainTitle(int code,String title) {
+        if (code == 0) {
+            title_left_main.setVisibility(View.GONE);
+        }
         rel_splash.setVisibility(View.GONE);
         rel_main.setVisibility(View.VISIBLE);
         tv_title_txt_main.setText(title);
@@ -186,26 +148,6 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
 
     public void setDisWifiStatus() {
         tv_title_txt_main.setText("未连接终端设备");
-    }
-
-    public void setTitle1() {
-        tv_title_txt1.setVisibility(View.VISIBLE);
-        tv_title_txt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPrefUtility.setParam(BaseTitleActivity.this, SharedPrefUtility.IS_LOGIN, false);
-                SharedPrefUtility.removeParam(BaseTitleActivity.this, SharedPrefUtility.LOGIN_DATA);
-
-                Intent intent=new Intent(BaseTitleActivity.this, MainActivity.class);
-                startActivity(intent);
-                CommonAction.getInstance().OutSign();
-            }
-        });
-    }
-
-    @OnClick(R.id.title_left)
-    public void iv_title_leftOnClick() {
-        finish();
     }
 
     @Override
