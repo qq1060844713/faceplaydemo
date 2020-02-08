@@ -104,9 +104,10 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
             toast.hide();
         }
         toast = new CustomToast(BaseTitleActivity.this, (ViewGroup) this.findViewById(R.id.toast_custom_parent));
-        toast.show(MyConstants.codeMsg(content), 500);
-        if (content == 101){
-            toast.show(msg,500);
+        if (content == 101) {
+            toast.show(msg, 500);
+        } else {
+            toast.show(MyConstants.codeMsg(content), 500);
         }
     }
     @Override

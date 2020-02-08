@@ -197,6 +197,7 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
         if (pay_num.getText().length() != 0) {
             payPresenter.payMoney(this, pay_num.getText().toString());
         } else {
+            disdialog();
             toastMessage(101,"金额不能为空");
         }
     }
@@ -216,10 +217,8 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
         disdialog();
         if (errMsg.equals("timeout")) {
             IntentUtils.entryActivity(MainActivity.this, PaymentActivity.class);
-        } else if (errMsg.contains("Failed to connect")) {
-            Toast.makeText(ctx, "未连接终端设备", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(ctx, MyConstants.MSG_NET_SERVER_INTERNAL_ERROR, Toast.LENGTH_SHORT).show();
+        } else {
+            toastMessage(101,MyConstants.MSG_NET_SERVER_INTERNAL_ERROR);
         }
     }
 
@@ -230,13 +229,13 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
 
     @Override
     public void showPayResultData(String errMsg) {
-        Toast.makeText(ctx, errMsg, Toast.LENGTH_SHORT).show();
+        toastMessage(101,MyConstants.MSG_NET_SERVER_INTERNAL_ERROR);
     }
 
     @Override
     public void showErroePayResultData(int errMsg) {
         disdialog();
-        Toast.makeText(ctx, MyConstants.codeMsg(errMsg), Toast.LENGTH_SHORT).show();
+        toastMessage(errMsg,"");
     }
 
     @Override
