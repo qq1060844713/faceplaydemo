@@ -208,7 +208,7 @@ public class PaymentActivity extends BaseTitleActivity implements PayResultView{
                 }
             }, 1000 * 2);
         } else {
-            Toast.makeText(ctx, "请输入六位数字", Toast.LENGTH_SHORT).show();
+            showMessage("请输入六位数字");
         }
     }
 

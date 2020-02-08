@@ -48,7 +48,7 @@ import butterknife.Unbinder;
  * Created by Thinkpad on 2017/3/8.
  */
 public class BaseTitleActivity extends AbstractTemplateActivity implements NetBroadcastReceiver.NetStatusMonitor {
-    NetBroadcastReceiver  netBroadcastReceiver;
+    public NetBroadcastReceiver  netBroadcastReceiver;
     public Context ctx = null;
 
     @BindView(R.id.tv_title_txt)
@@ -78,7 +78,7 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
     RelativeLayout rel_splash;
     public boolean netStatus;
     final Timer t = new Timer();
-    private LoadingFragmentDialog loadingDialog;
+    public LoadingFragmentDialog loadingDialog;
     private ProgressDialog progressdlg = null;
     private WifiUtils mUtils;
     private CustomToast toast;
@@ -90,6 +90,14 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
         toast = new CustomToast(BaseTitleActivity.this,
                 (ViewGroup) this.findViewById(R.id.toast_custom_parent));
         toast.show(MyConstants.codeMsg(content), 500);
+    }
+    public void showMessage(String content) {
+        if (toast != null) {
+            toast.hide();
+        }
+        toast = new CustomToast(BaseTitleActivity.this,
+                (ViewGroup) this.findViewById(R.id.toast_custom_parent));
+        toast.show(content, 500);
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,16 +130,12 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
         loadingDialog.show(getSupportFragmentManager(), "msg");
     }
     public void showWifiDialog(){
-        loadingDialog.setMessage("加载中");
+        loadingDialog.setMessage("搜索中");
         loadingDialog.show(getSupportFragmentManager(), "msg");
     }
 
-    public void disdialog(){
-        t.schedule(new TimerTask() {
-            public void run() {
-                loadingDialog.dismiss();
-            }
-        }, 500);
+    public void disdialog() {
+        loadingDialog.dismiss();
     }
 
     @Override
@@ -260,12 +264,8 @@ public class BaseTitleActivity extends AbstractTemplateActivity implements NetBr
     }
 
     public void showDialog_wifi() {
-        progressdlg = new ProgressDialog(this);
-        progressdlg.setCanceledOnTouchOutside(false);
-        progressdlg.setCancelable(false);
-        progressdlg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressdlg.setMessage("加载中...");
-        progressdlg.show();
+        loadingDialog.setMessage("连接中");
+        loadingDialog.show(getSupportFragmentManager(), "msg");
     }
     public void progressDismiss() {
         if (progressdlg != null) {

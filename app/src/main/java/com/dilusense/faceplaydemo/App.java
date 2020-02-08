@@ -62,7 +62,7 @@ public class App extends Application {
      * @return
      */
     public String getPayServIP(){
-       return "10.0.1.44:8888";
+       return "192.168.43.119:8888";
     }
 }
 

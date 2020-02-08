@@ -92,7 +92,7 @@ public class RetrofitUtils {
         //BaseUrl 一般网络请求地址里面，总会有一样得前缀，就像是
         //http://192.168.20.241:11008****这就是那个基地址，基地址+NetInterface类里面的
         //post（）的地址就是一个完整的网络请求地址，这点要注意
-        baseUrl = "http://10.0.1.44:8888/";
+        baseUrl = "http://192.168.43.119:8888/";
         Retrofit mRetrofit = new Retrofit.Builder()
                 //添加网络请求的基地址
                 .baseUrl(baseUrl)

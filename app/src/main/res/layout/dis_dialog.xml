@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#11ffffff">
+     <LinearLayout
+         android:background="@drawable/dialog_bg"
+         android:layout_centerVertical="true"
+         android:layout_centerHorizontal="true"
+         android:orientation="vertical"
+         android:layout_width="300dp"
+         android:layout_height="150dp">
+         <LinearLayout
+             android:layout_marginTop="40dp"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+             <TextView
+                 android:id="@+id/dis_title"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_horizontal|center_vertical"
+                 android:ellipsize="end"
+                 android:maxLines="1"
+                 android:text="确定断开连接"
+                 android:textColor="#333333"
+                 android:textSize="16dp"/>
+         </LinearLayout>
+          <LinearLayout
+              android:layout_marginTop="20dp"
+              android:orientation="vertical"
+              android:layout_width="300dp"
+              android:layout_height="wrap_content">
+              <LinearLayout
+                  android:layout_gravity="center_horizontal"
+                  android:orientation="horizontal"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_marginLeft="10dp"
+                      android:orientation="vertical"
+                      android:layout_marginRight="10dp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content">
+                      <Button
+                          android:layout_gravity="center_horizontal"
+                          android:id="@+id/lianjie1"
+                          android:layout_width="100dp"
+                          android:layout_height="40dp"
+                          android:background=" #3D9FFF"
+                          android:text="确定"
+                          android:textColor="@color/white"/>
+                  </LinearLayout>
+                  <LinearLayout
+                      android:orientation="vertical"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content">
+                      <Button
+                          android:layout_gravity="center_horizontal"
+                          android:id="@+id/dis_wifi"
+                          android:layout_width="100dp"
+                          android:layout_height="40dp"
+                          android:background="#D4D4D4"
+                          android:text="取消"
+                          android:textColor="@color/white"/>
+                  </LinearLayout>
+              </LinearLayout>
+              </LinearLayout>
+
+
+     </LinearLayout>
+
+</RelativeLayout>

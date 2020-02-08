@@ -38,13 +38,13 @@ public class MyConstants {
         } else if (code == 2502) {
             return "连接异常";
         } else if (code == 2503) {
-            return "wifi已连接";
+            return "设备已连接";
         } else if (code == 2504) {
             return "连接失败";
         } else if (code == 2505) {
             return "未知错误";
         } else if (code == 2600) {
-            return "发现wifi网络";
+            return "发现设备";
         } else if (code == -1) {
             return "未知错误";
         } else if (code == 10001) {

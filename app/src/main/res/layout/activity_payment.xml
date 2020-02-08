@@ -84,7 +84,7 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:background="@drawable/shape_corner"
+                    android:background="#00000000"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -104,7 +104,7 @@
                             />
                     </LinearLayout>
                     <LinearLayout
-                        android:background="#32000000"
+                        android:background="@drawable/shape_conrner1"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -164,7 +164,7 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/shape_corner"
+                    android:background="#00000000"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -185,7 +185,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:background="#32000000"
+                        android:background="@drawable/shape_conrner1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">

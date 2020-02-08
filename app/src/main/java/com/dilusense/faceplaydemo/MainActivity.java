@@ -36,6 +36,7 @@ import com.dilusense.faceplaydemo.presenter.PayPresenter;
 import com.dilusense.faceplaydemo.utils.IntentUtils;
 import com.dilusense.faceplaydemo.utils.MyConstants;
 import com.dilusense.faceplaydemo.utils.WifiAdmin;
+import com.dilusense.faceplaydemo.view.DisConnDialog;
 import com.dilusense.faceplaydemo.view.PassWordDialog;
 import com.dilusense.faceplaydemo.view.PayResultView;
 import com.dilusense.faceplaydemo.view.wifiConnection;
@@ -94,6 +95,7 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         setMainTitle("已连接" + "(" + wifiName + ")");
+        wifi_list.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.rel_main)
@@ -125,18 +127,16 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
     private void openWifi(final ScanResult crm) {
         String ssid = (String) SharedPrefUtility.getParam(ctx, SharedPrefUtility.WIFI_INFO, "");
         if (ssid.equals(crm.SSID)) {
-            disConnect();
+            disConnect(crm.SSID);
         } else {
             passWordDialog = new PassWordDialog(ctx);
             if (crm.capabilities.contains("WPA")) {
-                passWordDialog.setTitle("请输入" + crm.SSID + "的密码");
+                passWordDialog.setTitle("请输入(" + crm.SSID + ")的密码");
                 passWordDialog.setYesOnclickListener("", new PassWordDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick(String phone) {
                         showDialog_wifi();
-                        wifiAdmin.forgetWifi(currentWifiSSID);
-                        wifiAdmin.disconnectWifi(wifiNetworkId);
-                        deviceAdapter.changetShowDelImage(false);
+                        passWordDialog.dismiss();
                         connectToWifi(crm, phone);
                     }
                 });
@@ -148,6 +148,9 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
         }
     }
     private void connectToWifi(final ScanResult scanResult, String password) {
+        wifiAdmin.forgetWifi(currentWifiSSID);
+        wifiAdmin.disconnectWifi(wifiNetworkId);
+        deviceAdapter.changetShowDelImage(false);
         wifiConnector.setScanResult(scanResult, password);
         wifiConnector.setLog(true);
         progressDismiss();
@@ -161,7 +164,9 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
             @Override
             public void errorConnect(int codeReason) {
                 Log.d("wifi","连接失败");
-                toastMessage(codeReason);
+                passWordDialog.dismiss();
+                toastMessage(2504);
+                loadingDialog.dismiss();
             }
 
             @Override
@@ -171,21 +176,19 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
         });
     }
 
-    private void disConnect() {
-        myAlertDialog = new MyAlertDialog(this).builder().setTitle("确定断开连接？").setPositiveButton("确认", new View.OnClickListener() {
+    private void disConnect(String msg) {
+        DisConnDialog disConnDialog = new DisConnDialog(ctx);
+        disConnDialog.setTitle("确定与"+"'"+"设备"+msg+"'"+"断开连接");
+        disConnDialog.setYesOnclickListener("", new DisConnDialog.onYesOnclickListener() {
             @Override
-            public void onClick(View v) {
+            public void onYesClick() {
                 wifiAdmin.disconnectWifi(wifiNetworkId);
                 wifiAdmin.forgetWifi(currentWifiSSID);
                 finish();
                 IntentUtils.entryActivity(MainActivity.this, DeviceActivity.class);
             }
-        }).setNegativeButton("取消", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
         });
-        myAlertDialog.show();
+        disConnDialog.show();
     }
 
     @OnClick(R.id.pay_result)
@@ -194,7 +197,7 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
             showDialog();
             payPresenter.payMoney(this, pay_num.getText().toString());
         } else {
-            Toast.makeText(ctx, "金额不能为空", Toast.LENGTH_SHORT).show();
+            showMessage("金额不能为空");
         }
     }
 
@@ -264,16 +267,23 @@ public class MainActivity extends BaseTitleActivity implements PayResultView {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what != 100) {
-                WifiInfo currentWifiInfo = mUtils.getCurrentWifiInfo();
-                currentWifiSSID = currentWifiInfo.getSSID().replace("\"", "").replace("\"", "");
-                setWifiStatus(currentWifiSSID);
-                wifiAdmin.startScan();
-                wifiNetworkId = currentWifiInfo.getNetworkId();
-                scanWifiDevice();
-                deviceAdapter.changetShowDelImage(true);
+                try {
+                    WifiInfo currentWifiInfo = mUtils.getCurrentWifiInfo();
+                    currentWifiSSID = currentWifiInfo.getSSID().replace("\"", "").replace("\"", "");
+                    setWifiStatus(currentWifiSSID);
+                    wifiAdmin.startScan();
+                    wifiNetworkId = currentWifiInfo.getNetworkId();
+                    SharedPrefUtility.setParam(ctx, SharedPrefUtility.WIFI_INFO, currentWifiSSID);
+                    scanWifiDevice();
+                    deviceAdapter.changetShowDelImage(true);
+                    loadingDialog.dismiss();
+                } catch (Exception e) {
+
+                }
             }  else {
                 SharedPrefUtility.setParam(ctx, SharedPrefUtility.WIFI_INFO, "");
                 setDisWifiStatus();
+                deviceAdapter.changetShowDelImage(false);
             }
         }
     };

@@ -45,12 +45,21 @@ public class WifiAdmin {
         }
     }
 
+    public void forgetWifiPassWord(){
+        List<WifiConfiguration> networks = mWifiManager.getConfiguredNetworks();
+        for( WifiConfiguration wifi : networks) {
+            mWifiManager.removeNetwork(wifi.networkId);
+            mWifiManager.saveConfiguration();
+        }
+    }
+
     public void forgetWifi(String ssid) {
         try {
             WifiConfiguration exsitsInRecord = isExsitsInRecord(ssid);
             if (exsitsInRecord != null) {
                 int networkId = exsitsInRecord.networkId;
                 mWifiManager.removeNetwork(networkId);
+                mWifiManager.saveConfiguration();
             }
         } catch (Error e) {
             Log.e("断开错误", e.getMessage());

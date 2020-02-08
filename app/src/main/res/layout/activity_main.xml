@@ -38,7 +38,7 @@
                 android:layout_marginBottom="30dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:background="@drawable/shape_corner"
+                android:background="#00000000"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -63,12 +63,20 @@
                     android:background="#32000000"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-                <ListView
-                    android:id="@+id/listview"
+
+                <LinearLayout
+                    android:background="@drawable/shape_conrner1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="1dp"
-                    android:background="#32000000"/>
+                    android:layout_height="wrap_content">
+
+                    <ListView
+                        android:id="@+id/listview"
+                        android:scrollbarStyle="outsideOverlay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -76,7 +84,7 @@
                 android:layout_height="200dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:background="@drawable/shape_corner"
+                android:background="#00000000"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -97,7 +105,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:background="#32000000"
+                    android:background="@drawable/shape_conrner1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">

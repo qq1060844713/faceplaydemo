@@ -32,7 +32,7 @@ public class CustomToast {
         if (toast == null) {
             toast = new Toast(context);
         }
-        toast.setGravity(Gravity.BOTTOM, 0, 0);
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setDuration(Toast.LENGTH_LONG);
         toast.setView(layout);
     }
